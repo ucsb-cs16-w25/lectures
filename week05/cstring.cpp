@@ -15,7 +15,6 @@ int main()
     cout << &str2 << endl;
     cout << &str3 << endl;
 
-    cout << "Length: " << strlen(str1) << endl;
     cout << "str2 is: " << str2 << endl; // Expected "World"
 
     str2[5] = 'r';
