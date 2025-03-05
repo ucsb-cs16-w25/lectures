@@ -2,137 +2,117 @@
 #include <vector>
 using namespace std;
 
-// Class representing a Tweet
 class Tweet
 {
 public:
-    // Method to edit tweet content
-    void edit_content(string new_content);
-
-    // Method to add a like to the tweet
-    void add_like();
-
-    // Constructor to initialize a Tweet object
+    // Constructor to initialize a tweet with a user ID and optional content
     Tweet(string who, string new_content = "");
 
-    // Method to display the tweet
+    // Method to edit the content of the tweet
+    void edit_content(string new_content);
+
+    // Method to increase the like count of the tweet
+    void add_like();
+
+    // Method to display the tweet's details
     void show_tweet();
 
 private:
-    string userid;  // Stores the user ID of the person who posted the tweet
-    string content; // Stores the content of the tweet
-    int likes;      // Stores the number of likes on the tweet
-    bool edited;    // Indicates whether the tweet has been edited
+    string userid;  // User ID of the tweet's author
+    string content; // Content of the tweet
+    int likes;      // Number of likes the tweet has
+    bool edited;    // Flag to indicate if the tweet has been edited
 };
 
 // Constructor implementation
 Tweet::Tweet(string who, string new_content)
 {
-    userid = who;          // Assign the user ID
-    likes = 0;             // Initialize likes to zero
-    content = new_content; // Assign the tweet content
-    edited = false;        // Initially, the tweet is not edited
+    userid = who;
+    content = new_content;
+    likes = 0;      // Initialize likes to 0
+    edited = false; // Initialize edited flag to false
 }
 
-// Method to edit the tweet content
+// Edit tweet content
 void Tweet::edit_content(string new_content)
 {
-    content = new_content; // Update tweet content
-    edited = true;         // Mark the tweet as edited
+    content = new_content;
+    edited = true; // Mark tweet as edited
 }
 
-// Method to increase the like count
+// Increment like count
 void Tweet::add_like()
 {
     likes += 1;
 }
 
-// Method to display the tweet details
+// Display tweet details
 void Tweet::show_tweet()
 {
     cout << "Tweet by " << userid << endl;
     cout << content << endl;
-
-    // Display "updated" if the tweet has been edited
     if (edited)
-        cout << "updated" << endl;
-
-    // Display the number of likes
-    cout << "likes: " << likes << endl;
+        cout << "Updated" << endl; // Show "Updated" if tweet was edited
+    cout << "Likes: " << likes << endl;
 }
 
-// Class representing a User
 class User
 {
 public:
-    // Method to add a new tweet
-    void add_tweet(string post);
-
-    // Method to display all tweets of the user
-    void display_page();
-
-    // Constructor to initialize a User object
+    // Constructor to initialize a user with a given ID
     User(string name);
 
+    // Method to add a tweet to the user's list of tweets
+    void add_tweet(string post);
+
+    // Method to display all tweets by the user
+    void display_page();
+
 private:
-    string userid;        // Stores the user ID (username)
-    string bio;           // Stores the user's bio (currently unused)
-    vector<Tweet> tweets; // Stores a collection of tweets by the user
+    string userid;
+    vector<Tweet> tweets; // Vector of tweets by the user
 };
 
-// Constructor implementation
+// User constructor
 User::User(string name)
 {
-    userid = name; // Assign the user ID (username)
+    userid = name;
 }
 
-// Method to create and add a tweet to the user's tweet collection
+// Add a new tweet
 void User::add_tweet(string post)
 {
-    Tweet t(userid, post); // Create a new Tweet object
-    tweets.push_back(t);   // Add it to the user's list of tweets
+    Tweet newTweet(userid, post); // Create a new Tweet object
+    tweets.push_back(newTweet);   // Add it to the vector of tweets
 }
 
-// Method to display all tweets of the user
+// Display user's tweet page
 void User::display_page()
 {
-    // Iterate through the tweets and display them
     for (Tweet t : tweets)
-    {
-        t.show_tweet();
+    {                   // Iterate over each tweet
+        t.show_tweet(); // Display tweet details
     }
 }
 
 int main()
 {
-    // Create a user
-    User user1("Alice");
+    User user1("user1");             // Create a User object
+    Tweet t("User1", "Hello");       // Create a Tweet object
+    t.show_tweet();                  // Display initial tweet
+    t.edit_content("Good morning!"); // Edit tweet content
+    t.add_like();                    // Add a like
+    t.add_like();                    // Add another like
+    t.show_tweet();                  // Display updated tweet
 
-    // Add tweets
-    user1.add_tweet("Hello, world!");
-    user1.add_tweet("Learning C++ is fun!");
-    user1.add_tweet("Just had a great cup of coffee.");
+    // User1 adds three tweets
+    user1.add_tweet("How are you?");
+    user1.add_tweet("Have a nice day!");
+    user1.add_tweet("Goodbye!");
 
-    // Display the user's tweets
-    cout << "\n=== Alice's Tweets ===" << endl;
-    user1.display_page();
+    cout << "---------------" << endl;
 
-    // Simulating tweet editing and liking
-    cout << "\n=== Editing and Liking Tweets ===" << endl;
-
-    // Assume user wants to edit the second tweet (index 1)
-    // Since tweets are stored in a vector inside the User class, we can't directly edit them.
-    // We would need an additional method in the User class to edit a specific tweet.
-    // For now, we create a new Tweet object manually and demonstrate editing.
-
-    Tweet t("Alice", "Learning C++ is fun!");
-    t.edit_content("Learning C++ is amazing!");
-    t.add_like();
-    t.add_like();
-
-    // Show edited tweet
-    cout << "\nEdited Tweet:\n";
-    t.show_tweet();
+    user1.display_page(); // Display all of User1's tweets
 
     return 0;
 }
